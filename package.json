@@ -1,0 +1,23 @@
+{
+  "name": "jserror",
+  "version": "1.0.0",
+  "description": "Exploring Clientside JavaScript Errors",
+  "main": "Gruntfile.js",
+  "devDependencies": {
+    "express": "3.3.8",
+    "grunt": "0.4.1",
+    "grunt-contrib-clean": "0.5.0",
+    "grunt-contrib-copy": "0.4.1",
+    "grunt-contrib-watch": "0.5.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/toddhgardner/jserror.git"
+  },
+  "author": "Todd H Gardner",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "bugs": {
+    "url": "https://github.com/toddhgardner/jserror/issues"
+  }
+}
