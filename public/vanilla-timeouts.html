@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Vanilla.js Errors</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="lib/bootstrap/css/bootstrap.min.css"/>
+  </head>
+  <body>
+    <h1>SetTimeout/SetInterval Errors in Vanilla.js</h1>
+
+    <h2>Errors From SetTimeout</h2>
+    <div id="js-settimeout-error"></div>
+    <div><em>note: firefox knows the function that started setTimeout, but webkit doesnt</em></div>
+
+    <h2>Errors From SetInterval</h2>
+    <div id="js-setinterval-error"></div>
+    <div><em>note: firefox knows the function that started setInterval, but webkit doesnt</em></div>
+
+    <h2>Errors Caught by Containing App</h2>
+    <div id="js-caught-error"></div>
+    <div><em>note: this never gets populated, because the error cannot bubble back out to the app.</em></div>
+
+    <h2>Error Caught Globally</h2>
+    <div id="js-global-error"></div>
+
+    <script src="js/util.js"></script>
+    <script src="js/vanilla-timeouts.js"></script>
+  </body>
+</html>

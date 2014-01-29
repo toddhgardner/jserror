@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Vanilla.js Errors</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="lib/bootstrap/css/bootstrap.min.css"/>
+  </head>
+  <body>
+    <h1>Callback Errors in Vanilla.js</h1>
+
+    <h2>An error from a event listener</h2>
+    <button id="js-button-listener-error">Trigger</button>
+    <div id="js-listener-error"></div>
+
+    <h2>An error from a named event listener</h2>
+    <button id="js-button-named-listener-error">Trigger</button>
+    <div id="js-named-listener-error"></div>
+
+    <h2>Errors expected to bubble out of event listeners</h2>
+    <div id="js-caught-error">this will never happen, errors do not bubble out of event listeners!</div>
+
+    <h2>Error Caught Globally</h2>
+    <div id="js-global-error"></div>
+
+    <script src="js/util.js"></script>
+    <script src="js/vanilla-callback.js"></script>
+  </body>
+</html>
