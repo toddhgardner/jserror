@@ -1,33 +1,33 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>JavaScript Error Object</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="lib/bootstrap/css/bootstrap.min.css"/>
-  </head>
-  <body class="container">
-    <div class="row">
-        <h1>
-            JavaScript Error Object <small>Traces of Errors</small>
-        </h1>
-    </div>
+<head>
+  <title>JavaScript Error Object</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="lib/bootstrap/css/bootstrap.min.css"/>
+</head>
+<body class="container">
+  <div class="row">
+    <h1>
+      JavaScript Error Object <small>Traces of Errors</small>
+    </h1>
+  </div>
 
-    <div class="row">
-        <h3>Throwing</h3>
-        <div id="js-error"></div>
-    </div>
+  <div class="row">
+    <h3>Throwing</h3>
+    <div id="js-error"></div>
+  </div>
 
-    <script src="js/util.js"></script>
-    <script>
+  <script src="js/util.js"></script>
+  <script>
 
-    (function (window, document) {
+  (function (window, document) {
 
-        var error = new Error("an example error");
+    var error = new Error("an example error");
 
-        printProps(error, document.getElementById("js-error"));
+    printProps(error, document.getElementById("js-error"));
 
-    })(window, document);
+  })(window, document);
 
-    </script>
-  </body>
+  </script>
+</body>
 </html>

@@ -1,43 +1,86 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Trying and Catching</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="lib/bootstrap/css/bootstrap.min.css"/>
-  </head>
-  <body class="container">
-    <div class="row">
-        <h1>
-            Trying and Catching <small>Traces of Errors</small>
-        </h1>
-    </div>
+<head>
+  <title>How Errors Bubble</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="lib/bootstrap/css/bootstrap.min.css"/>
+</head>
+<body class="container">
+  <div class="row">
+    <h1>
+      How Errors Bubble <small>Traces of Errors</small>
+    </h1>
+  </div>
 
-    <div class="row">
-        <h3>Throwing</h3>
-        <div id="js-error"></div>
-    </div>
+  <div class="row">
+    <h3>Erroring Function</h3>
+    <div id="js-error"></div>
+  </div>
 
-    <script src="js/util.js"></script>
-    <script>
+  <div class="row">
+    <h3>Inner Calling Function</h3>
+    <div id="js-inner"></div>
+  </div>
 
-    (function (window, document) {
+  <div class="row">
+    <h3>Outer Calling Function</h3>
+    <div id="js-outer"></div>
+  </div>
 
-        var errorEl = document.getElementById("js-error");
+  <div class="row">
+    <h3>Global Handler</h3>
+    <div id="js-global"></div>
+    <div id="js-global-error"></div>
+  </div>
 
-        function throwError() {
+  <script src="js/util.js"></script>
+  <script>
+
+  (function (window, document) {
+
+    function triggerError() {
+      try {
+
+        throw new Error("an example error");
+
+      } catch(error) {
+        printProps(error, document.getElementById("js-error"));
+        throw error;
+      }
+    }
+
+    function outerCaller() {
+      try {
+
+        // anonymous inner function. maybe it should have a name?
+        (function() {
+
           try {
-            throw new Error("an example error");
-            // throw { message: "a custom object" };
-            // throw "a random string";
+            triggerError();
           } catch(error) {
-            listErrorProperties(errorEl, error);
+            printProps(error, document.getElementById("js-inner"));
+            throw error;
           }
-        }
 
-        throwError();
+        })();
 
-    })(window, document);
+      } catch(error) {
+        printProps(error, document.getElementById("js-outer"));
+        throw error;
+      }
+    }
 
-    </script>
-  </body>
+    window.onerror = function (message, file, line, col, error) {
+      printProps(arguments, document.getElementById("js-global"));
+      if (error) {
+        printProps(error, document.getElementById("js-global-error"));
+      }
+    };
+
+    outerCaller();
+
+  })(window, document);
+
+  </script>
+</body>
 </html>

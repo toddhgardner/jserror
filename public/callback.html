@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>How Errors Bubble with Callbacks</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="lib/bootstrap/css/bootstrap.min.css"/>
+  </head>
+  <body class="container">
+    <div class="row">
+        <h1>
+            How Errors Bubble with Callbacks <small>Traces of Errors</small>
+        </h1>
+    </div>
+
+    <div class="row">
+        <h3>Erroring Function</h3>
+        <div id="js-error"></div>
+    </div>
+
+    <div class="row">
+        <h3>Inner Calling Function</h3>
+        <div id="js-inner"></div>
+    </div>
+
+    <div class="row">
+        <h3>Outer Calling Function</h3>
+        <div id="js-outer"></div>
+    </div>
+
+    <div class="row">
+        <h3>Global Handler</h3>
+        <div id="js-global"></div>
+        <div id="js-global-error"></div>
+    </div>
+
+    <script src="js/util.js"></script>
+    <script>
+
+    (function (window, document) {
+
+        function triggerError() {
+            try {
+
+                throw new Error("an example error");
+
+            } catch(error) {
+                printProps(error, document.getElementById("js-error"));
+                throw error;
+            }
+        }
+
+
+        function outerCaller() {
+
+            try {
+
+                // anonymous inner function. maybe it should have a name?
+                (function() {
+
+                    try {
+                        triggerError();
+                    } catch(error) {
+                        printProps(error, document.getElementById("js-inner"));
+                        throw error;
+                    }
+
+                })();
+
+            } catch(error) {
+                printProps(error, document.getElementById("js-outer"));
+                throw error;
+            }
+        }
+
+        window.onerror = function (message, file, line, col, error) {
+          printProps(arguments, document.getElementById("js-global"));
+          if (error) {
+              printProps(error, document.getElementById("js-global-error"));
+          }
+        };
+
+
+        outerCaller();
+
+
+    })(window, document);
+
+    </script>
+  </body>
+</html>
