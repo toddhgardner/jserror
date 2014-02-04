@@ -1,27 +1,38 @@
 
+var errorElCounter = 0;
 function listErrorProperties(element, error) {
   var hasStack = false;
+  errorElCounter++;
+
+  element.innerHTML = "<table class='table'><thead><tr><th>Prop</th><th>Value</th></tr></thead><tbody id='error-table-"+ errorElCounter +"'></tbody></table>";
+  var elementTable = document.getElementById("error-table-"+ errorElCounter);
 
   getAllProperties(error).forEach(function (prop) {
-    if (prop === 'stack') {
-      hasStack = true;
-    }
 
     if (typeof error[prop] === "function") {
       return;
     }
 
-    element.innerHTML += "<div><strong>"+prop+":</strong>"+error[prop]+"</div>";
+    if (prop === 'stack') {
+      hasStack = true;
+    }
+
+    elementTable.innerHTML += "<tr><td>"+prop+"</td><td>"+error[prop]+"</td></tr>";
   });
 
-  if (!hasStack) {
-    element.innerHTML += "<div><strong>magic stack:</strong>"+error.stack+"</div>";
+  // weird Mozilla issue where the stack property doesn't enumerate, but it does exist
+  if (!hasStack && error.stack) {
+    elementTable.innerHTML += "<tr><td>stack</td><td>"+error.stack+"</td></tr>";
   }
-}
 
+}
 
 //stackoverflow.com/questions/8024149/is-it-possible-to-get-the-non-enumerable-inherited-property-names-of-an-object
 function getAllProperties(obj){
+  if (typeof obj !== "object") {
+    return [];
+  }
+
   var allProps = [],
     props,
     curr = obj;

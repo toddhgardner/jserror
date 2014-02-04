@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>JavaScript Error Object</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="lib/bootstrap/css/bootstrap.min.css"/>
+  </head>
+  <body class="container">
+    <div class="row">
+        <h1>
+            JavaScript Error Object <small>Traces of Errors</small>
+        </h1>
+    </div>
+
+    <div class="row">
+        <h3>Throwing</h3>
+        <div id="js-error"></div>
+    </div>
+
+    <script src="js/util.js"></script>
+    <script>
+
+    (function (window, document) {
+
+        var errorEl = document.getElementById("js-error");
+
+        function throwError() {
+          try {
+            throw new Error("an example error");
+            // throw { message: "a custom object" };
+            // throw "a random string";
+          } catch(error) {
+            listErrorProperties(errorEl, error);
+          }
+        }
+
+        throwError();
+
+    })(window, document);
+
+    </script>
+  </body>
+</html>
