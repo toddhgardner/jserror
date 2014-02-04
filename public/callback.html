@@ -80,6 +80,7 @@
 
     // Just in case
     window.onerror = function (message, file, line, col, error) {
+
       printProps(arguments, document.getElementById("js-global"));
       if (error) {
         printProps(error, document.getElementById("js-global-error"));

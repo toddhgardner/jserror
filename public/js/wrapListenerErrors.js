@@ -5,6 +5,7 @@
   Element.prototype.addEventListener = function wrappedAddEventListener(event, callback, onerror) {
 
     originalAddEventListener.call(this, event, function() {
+
       try {
         callback();
       } catch(error) {
