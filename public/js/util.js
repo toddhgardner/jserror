@@ -1,6 +1,6 @@
 
 var errorElCounter = 0;
-function listErrorProperties(element, error) {
+function printProps(error, element) {
   var hasStack = false;
   errorElCounter++;
 

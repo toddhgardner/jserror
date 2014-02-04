@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>JavaScript Error Object</title>
+    <title>Trying and Catching</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="lib/bootstrap/css/bootstrap.min.css"/>
   </head>
   <body class="container">
     <div class="row">
         <h1>
-            JavaScript Error Object <small>Traces of Errors</small>
+            Trying and Catching <small>Traces of Errors</small>
         </h1>
     </div>
 
@@ -22,9 +22,19 @@
 
     (function (window, document) {
 
-        var error = new Error("an example error");
+        var errorEl = document.getElementById("js-error");
 
-        printProps(error, document.getElementById("js-error"));
+        function throwError() {
+          try {
+            throw new Error("an example error");
+            // throw { message: "a custom object" };
+            // throw "a random string";
+          } catch(error) {
+            listErrorProperties(errorEl, error);
+          }
+        }
+
+        throwError();
 
     })(window, document);
 
