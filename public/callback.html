@@ -58,13 +58,20 @@
           }
         }
 
+        function onError(error) {
+          // custom application error logic.
+          //   show user messaging?
+          //   log the event somewhere?
+          printProps(error, document.getElementById("js-app"));
+        }
+
       } catch(error) {
-        printProps(error, document.getElementById("js-app"));
-        throw error;
+        onError(error);
       }
 
       return {
-        initialize:initialize
+        initialize:initialize,
+        onError:onError
       };
 
     }
