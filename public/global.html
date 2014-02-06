@@ -15,7 +15,6 @@
   <div class="row">
     <h3>Arguments</h3>
     <div id="js-arguments"></div>
-    <div id="js-error"></div>
   </div>
 
   <script src="js/util.js"></script>
@@ -23,15 +22,10 @@
 
   (function (window, document) {
 
-    //                      CHECK THAT OUT ---------------||
-    //                                                    VV
-    window.onerror = function (message, file, line, col, error) {
+    window.onerror = function () {
 
       printProps(arguments, document.getElementById("js-arguments"));
 
-      if (error) {
-        printProps(error, document.getElementById("js-error"));
-      }
     };
 
     throw new Error("a global error");
