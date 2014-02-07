@@ -41,15 +41,10 @@
 
         function initialize() {
           var buttonEl = document.getElementById("js-button");
-
-          //    ANOTHER ANONYMOUS FUNCTION -----||
-          //                                    VV
-          buttonEl.addEventListener("click", function () {
-            triggerError();
-          });
+          buttonEl.addEventListener("click", onClick);
         }
 
-        function triggerError() {
+        function onClick() {
           try {
             throw new Error("an example error");
           } catch(error) {
