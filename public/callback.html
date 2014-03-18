@@ -73,7 +73,7 @@
 
 
     // Just in case
-    window.onerror = function (message, file, line, col, error) {
+    window.onerror = function () {
       printProps(arguments, document.getElementById("js-global"));
     };
 
