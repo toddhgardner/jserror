@@ -26,7 +26,6 @@
   <div class="row">
     <h3>Global Handler</h3>
     <div id="js-global"></div>
-    <div id="js-global-error"></div>
   </div>
 
   <script src="js/util.js"></script>
@@ -75,11 +74,7 @@
 
     // Just in case
     window.onerror = function (message, file, line, col, error) {
-
       printProps(arguments, document.getElementById("js-global"));
-      if (error) {
-        printProps(error, document.getElementById("js-global-error"));
-      }
     };
 
 
