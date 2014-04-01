@@ -25,14 +25,14 @@ function printProps(error, element) {
       printProps(error[prop], innerTableEl);
     }
     else {
-      elementTable.innerHTML += "<tr><td>"+prop+"</td><td>"+error[prop]+"</td></tr>";
+      elementTable.innerHTML += "<tr><td>"+prop+"</td><td>"+error[prop].toString().replace(/(\r\n|\n|\r)/gm,"<br>").replace(/(\t|\s\s)/gm,"&nbsp;&nbsp;")+"</td></tr>";
     }
 
   });
 
   // weird Mozilla issue where the stack property doesn't enumerate, but it does exist
   if (!hasStack && error.stack) {
-    elementTable.innerHTML += "<tr><td>stack</td><td>"+error.stack+"</td></tr>";
+    elementTable.innerHTML += "<tr><td>stack</td><td>"+error.stack.toString().replace(/(\r\n|\n|\r)/gm,"<br>").replace(/(\t|\s\s)/gm,"&nbsp;&nbsp;")+"</td></tr>";
   }
 
 }
