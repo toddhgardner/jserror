@@ -1,18 +1,39 @@
 (function (window, document) {
 
-  var originalAddEventListener = Element.prototype.addEventListener;
+  var originalFn = Element.prototype.addEventListener;
+  Element.prototype.addEventListener = function addEventListener(event, callback, onerror) {
 
-  Element.prototype.addEventListener = function wrappedAddEventListener(event, callback, onerror) {
+    var asyncStack,
+        bindTicks;
 
-    originalAddEventListener.call(this, event, function() {
+    try {
+      throw new Error();
+    } catch(e) {
+      asyncStack = e.stack;
+      bindTicks = Date.now();
+    }
 
+    function getAsyncStack() {
+      var boundaryTime = Date.now() - bindTicks;
+      return "\r\n" +
+        "/--------------------------/\r\n" +
+        " Async (" + boundaryTime + "ms)\r\n" +
+        "/--------------------------/\r\n" +
+        asyncStack;
+    }
+
+    originalFn.call(this, event, function addEventListenerCallback() {
       try {
+
         callback();
-      } catch(error) {
+
+      } catch(e) {
+        e.stack += getAsyncStack();
+
         if (typeof onerror === 'function') {
-          onerror(error);
+          onerror(e);
         } else {
-          throw error;
+          throw e;
         }
       }
     });
