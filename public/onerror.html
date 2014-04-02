@@ -1,36 +1,32 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Global OnError</title>
+  <title>Window.OnError</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="lib/bootstrap/css/bootstrap.min.css"/>
 </head>
 <body class="container">
   <div class="row">
-    <h1>
-      Global OnError <small>Traces of Errors</small>
-    </h1>
+    <h1>Window.OnError <small>Traces of Errors</small></h1>
   </div>
 
   <div class="row">
-    <h3>Arguments</h3>
+    <h3>window.onerror</h3>
     <div id="js-arguments"></div>
   </div>
 
-  <script src="js/util.js"></script>
+  <script src="js/printProps.js"></script>
   <script>
 
-  (function (window, document) {
+  (function (window) {
 
     window.onerror = function () {
-
-      printProps(arguments, document.getElementById("js-arguments"));
-
+      printProps(arguments, "js-arguments");
     };
 
     throw new Error("a global error");
 
-  })(window, document);
+  })(window);
 
   </script>
 </body>

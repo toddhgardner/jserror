@@ -20,15 +20,15 @@
     <div id="js-error-throw"></div>
   </div>
 
-  <script src="js/util.js"></script>
+  <script src="js/printProps.js"></script>
   <script>
 
-  (function (window, document) {
+  (function (window) {
 
     var e = new Error("an example error");
     printProps(e, "js-error");
 
-  })(window, document);
+  })(window);
 
   </script>
 </body>

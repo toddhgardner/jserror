@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>How Errors Bubble</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="lib/bootstrap/css/bootstrap.min.css"/>
+</head>
+<body class="container">
+  <div class="row">
+    <h1>Synchronous Error Paths <small>Traces of Errors</small></h1>
+  </div>
+
+  <div class="row">
+    <h3>Inner Function</h3>
+    <div id="js-inner"></div>
+  </div>
+
+  <div class="row">
+    <h3>Outer Function</h3>
+    <div id="js-outer"></div>
+  </div>
+
+  <div class="row">
+    <h3>window.onerror</h3>
+    <div id="js-global"></div>
+  </div>
+
+  <script src="js/printProps.js"></script>
+  <script>
+
+  (function (window) {
+
+    function outerFunction() {
+      var fruits = ["apple"];
+      try {
+
+        fruits.forEach(function (fruit) {
+          try {
+            throw new Error("an example error");
+          } catch (e) {
+            printProps(e, "js-inner");
+            throw e;
+          }
+        });
+
+      } catch(e) {
+        printProps(e, "js-outer");
+        throw e;
+      }
+    }
+
+    window.onerror = function () {
+      printProps(arguments, "js-global");
+    };
+
+    outerFunction();
+
+  })(window);
+
+  </script>
+</body>
+</html>
