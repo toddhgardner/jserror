@@ -1,4 +1,4 @@
-(function (window, document) {
+(function asyncListenerClosure(window) {
 
   var originalFn = Element.prototype.addEventListener;
   Element.prototype.addEventListener = function addEventListener(event, callback, onerror) {
@@ -40,4 +40,4 @@
 
   };
 
-})(window, document);
+})(window);

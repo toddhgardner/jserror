@@ -13,7 +13,6 @@
   <div class="row">
     <h3>An Error Trigger</h3>
     <button id="js-button">Trigger</button>
-    <div id="js-error"></div>
   </div>
 
   <div class="row">
@@ -28,7 +27,6 @@
 
   <script src="js/printProps.js"></script>
   <script>
-
   (function main(window, document) {
 
     function Application() {
@@ -39,15 +37,11 @@
         function initialize() {
           var buttonEl = document.getElementById("js-button");
           buttonEl.addEventListener("click", onClick);
+          //window.setTimeout(afterLoad, 4000);
         }
 
         function onClick() {
-          try {
-            throw new Error("an example error");
-          } catch(e) {
-            printProps(e, "js-error");
-            throw e;
-          }
+          throw new Error("an example error");
         }
 
         function onError(e) {
