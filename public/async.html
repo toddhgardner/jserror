@@ -1,15 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>How Errors Bubble with Callbacks</title>
+  <title>Asynchronous Error Paths</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="lib/bootstrap/css/bootstrap.min.css"/>
 </head>
 <body class="container">
   <div class="row">
-    <h1>
-      How Errors Bubble with Callbacks <small>Traces of Errors</small>
-    </h1>
+    <h1>Asynchronous Error Paths <small>Traces of Errors</small></h1>
   </div>
 
   <div class="row">
@@ -24,18 +22,18 @@
   </div>
 
   <div class="row">
-    <h3>Global Handler</h3>
+    <h3>window.onerror</h3>
     <div id="js-global"></div>
   </div>
 
-  <script src="js/util.js"></script>
+  <script src="js/printProps.js"></script>
   <script>
 
-  (function (window, document) {
+  (function main(window, document) {
 
-    function App() {
+    function Application() {
 
-      // I'm going to capture any errors in my application!
+      // Try ALL THE THINGS!
       try {
 
         function initialize() {
@@ -46,21 +44,22 @@
         function onClick() {
           try {
             throw new Error("an example error");
-          } catch(error) {
-            printProps(error, document.getElementById("js-error"));
-            throw error;
+          } catch(e) {
+            printProps(e, "js-error");
+            throw e;
           }
         }
 
-        function onError(error) {
+        function onError(e) {
           // custom application error logic.
           //   show user messaging?
           //   log the event somewhere?
-          printProps(error, document.getElementById("js-app"));
+          printProps(e, "js-app");
         }
 
-      } catch(error) {
-        onError(error);
+      // Catch ALL THE THINGS!
+      } catch(e) {
+        onError(e);
       }
 
       return {
@@ -73,12 +72,13 @@
 
 
     // Just in case
-    window.onerror = function () {
-      printProps(arguments, document.getElementById("js-global"));
+    window.onerror = function onGlobalError() {
+      printProps(arguments, "js-global");
     };
 
 
-    var app = new App();
+
+    var app = new Application();
     app.initialize();
 
   })(window, document);
