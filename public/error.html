@@ -7,9 +7,7 @@
 </head>
 <body class="container">
   <div class="row">
-    <h1>
-      JavaScript Error Object <small>Traces of Errors</small>
-    </h1>
+    <h1>JavaScript Error Object <small>Traces of Errors</small></h1>
   </div>
 
   <div class="row">
@@ -17,14 +15,18 @@
     <div id="js-error"></div>
   </div>
 
+  <div class="row">
+    <h3>Thrown Error</h3>
+    <div id="js-error-throw"></div>
+  </div>
+
   <script src="js/util.js"></script>
   <script>
 
   (function (window, document) {
 
-    var error = new Error("an example error");
-
-    printProps(error, document.getElementById("js-error"));
+    var e = new Error("an example error");
+    printProps(e, "js-error");
 
   })(window, document);
 

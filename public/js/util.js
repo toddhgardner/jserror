@@ -1,66 +1,97 @@
+(function printPropsClosure (window, document) {
+  var printCounter = 0;
 
-var errorElCounter = 0;
-function printProps(error, element) {
-  var hasStack = false;
-  var innerElCounter = 0;
-  errorElCounter++;
+  //stackoverflow.com/questions/8024149/is-it-possible-to-get-the-non-enumerable-inherited-property-names-of-an-object
+  function getAllProperties (obj) {
+    var allProps = [],
+        props,
+        curr = obj;
 
-  element.innerHTML = "<table class='table'><thead><tr><th>Prop</th><th>Value</th></tr></thead><tbody id='error-table-"+ errorElCounter +"'></tbody></table>";
-  var elementTable = document.getElementById("error-table-"+ errorElCounter);
+    do {
+      props = Object.getOwnPropertyNames(curr);
+      props.forEach(function propertyIterator (prop) {
+        if (allProps.indexOf(prop) === -1) {
+          allProps.push(prop);
+        }
+      });
+    } while( curr = Object.getPrototypeOf(curr) );
 
-  if (typeof error !== 'object') {
-    elementTable.innerHTML += "<tr><td></td><td>"+error+"</td></tr>";
+    return allProps.sort();
   }
 
-  else {
-    getAllProperties(error).forEach(function (prop) {
-      innerElCounter++;
 
+  function prepareValueForPrint(value) {
+    return value.toString()
+         .replace(/(\r\n|\n|\r)/gm,"<br>") // rendering newlines
+         .replace(/(\t|\s\s)/gm,"&nbsp;&nbsp;"); // rendering indents
+  }
+
+
+  window.printProps = function printProps(obj, elementId) {
+    var element = document.getElementById(elementId),
+        hasStack = false,
+        innerPrintCounter = 0;
+    printCounter++;
+
+    element.innerHTML = "" +
+      "<table class='table'>" +
+        "<thead><tr>" +
+          "<th>Prop</th><th>Value</th></tr>" +
+        "</thead><tbody id='print-prop-table-"+ printCounter +"'>" +
+        "</tbody>"+
+      "</table>";
+
+    var printTable = document.getElementById("print-prop-table-"+ printCounter);
+
+    // in case we were passed a primitive type
+    if (typeof obj !== 'object') {
+      printTable.innerHTML += "<tr><td></td><td>"+obj+"</td></tr>";
+      return;
+    }
+
+    getAllProperties(obj).forEach(function propertyIterator(prop) {
+      var value;
+      innerPrintCounter++;
+
+      // some special processing necessary for stacks in Mozilla
       if (prop === 'stack') {
         hasStack = true;
       }
 
-      if (typeof error[prop] === "function") {
+      if (typeof obj[prop] === "function") {
         return;
       }
 
-      if (typeof error[prop] === "object" && prop !== "__proto__") {
-        elementTable.innerHTML += "<tr><td>"+prop+"</td><td id='inner-error-"+innerElCounter+"'></td></tr>";
-        var innerTableEl = document.getElementById("inner-error-"+ innerElCounter);
-        printProps(error[prop], innerTableEl);
+      if (typeof obj[prop] === "object" && prop !== "__proto__") {
+
+        // Recursion!
+        printTable.innerHTML += "" +
+          "<tr>" +
+            "<td>"+prop+"</td>" +
+            "<td id='inner-print-prop-table-"+innerPrintCounter+"'></td>" +
+          "</tr>";
+        printProps(obj[prop], "inner-print-prop-table-" + innerPrintCounter);
+
       }
       else {
-        elementTable.innerHTML += "<tr><td>"+prop+"</td><td>"+error[prop].toString().replace(/(\r\n|\n|\r)/gm,"<br>").replace(/(\t|\s\s)/gm,"&nbsp;&nbsp;")+"</td></tr>";
+        printTable.innerHTML += "" +
+          "<tr>" +
+            "<td>"+prop+"</td>" +
+            "<td>"+prepareValueForPrint(obj[prop])+"</td>" +
+          "</tr>";
       }
 
     });
 
-    // weird Mozilla issue where the stack property doesn't enumerate, but it does exist
-    if (!hasStack && error.stack) {
-      elementTable.innerHTML += "<tr><td>stack</td><td>"+error.stack.toString().replace(/(\r\n|\n|\r)/gm,"<br>").replace(/(\t|\s\s)/gm,"&nbsp;&nbsp;")+"</td></tr>";
+    // weird Mozilla issue where the stack property doesn't enumerate,
+    // but it does exist
+    if (!hasStack && obj.stack) {
+      printTable.innerHTML += "" +
+        "<tr>" +
+          "<td>stack</td>" +
+          "<td>"+prepareValueForPrint(obj.stack)+"</td>" +
+        "</tr>";
     }
-  }
+  };
 
-}
-
-//stackoverflow.com/questions/8024149/is-it-possible-to-get-the-non-enumerable-inherited-property-names-of-an-object
-function getAllProperties(obj){
-  if (typeof obj !== "object") {
-    return [];
-  }
-
-  var allProps = [],
-    props,
-    curr = obj;
-
-  do {
-    props = Object.getOwnPropertyNames(curr);
-    props.forEach(function(prop) {
-      if (allProps.indexOf(prop) === -1) {
-        allProps.push(prop);
-      }
-    });
-  } while( curr = Object.getPrototypeOf(curr) );
-
-  return allProps;
-}
+})(window, document);
