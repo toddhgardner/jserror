@@ -13,15 +13,6 @@
       bindTicks = Date.now();
     }
 
-    function getAsyncStack() {
-      var boundaryTime = Date.now() - bindTicks;
-      return "\r\n" +
-        "/--------------------------/\r\n" +
-        " Async (" + boundaryTime + "ms)\r\n" +
-        "/--------------------------/\r\n" +
-        asyncStack;
-    }
-
     originalFn.call(this, event, function addEventListenerCallback() {
       try {
 
@@ -37,6 +28,15 @@
         }
       }
     });
+
+    function getAsyncStack() {
+      var boundaryTime = Date.now() - bindTicks;
+      return "\r\n" +
+        "/--------------------------/\r\n" +
+        " Async (" + boundaryTime + "ms)\r\n" +
+        "/--------------------------/\r\n" +
+        asyncStack;
+    }
 
   };
 

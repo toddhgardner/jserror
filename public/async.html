@@ -17,6 +17,7 @@
 
   <div class="row">
     <h3>Application error handler</h3>
+    <div id="js-user-error-msg"></div>
     <div id="js-app"></div>
   </div>
 
@@ -29,48 +30,37 @@
   <script>
   (function main(window, document) {
 
-    function Application() {
-
-      // Try ALL THE THINGS!
-      try {
-
-        function initialize() {
-          var buttonEl = document.getElementById("js-button");
-          buttonEl.addEventListener("click", onClick);
-          //window.setTimeout(afterLoad, 4000);
-        }
-
-        function onClick() {
-          throw new Error("an example error");
-        }
-
-        function onError(e) {
-          // custom application error logic.
-          //   show user messaging?
-          //   log the event somewhere?
-          printProps(e, "js-app");
-        }
-
-      // Catch ALL THE THINGS!
-      } catch(e) {
-        onError(e);
-      }
-
-      return {
-        initialize:initialize,
-        onError:onError
-      };
-
-    }
-
-
-
-    // Just in case
     window.onerror = function onGlobalError() {
       printProps(arguments, "js-global");
     };
 
+    function Application() {
 
+      function initialize() {
+        var buttonEl = document.getElementById("js-button");
+        buttonEl.addEventListener("click", onClick);
+      }
+
+      function onClick() {
+        // something really important
+        undef();
+      }
+
+      function onError(e) {
+        document.getElementById("js-user-error-msg").innerHTML =
+        "<div class='alert alert-danger'>" +
+          "Sorry! We messed up. We'll send you a TShirt" +
+        "</div>";
+
+        printProps(e, "js-app");
+      }
+
+      return {
+        initialize:initialize,
+        onClick:onClick,
+        onError:onError
+      };
+    }
 
     var app = new Application();
     app.initialize();
