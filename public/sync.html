@@ -11,13 +11,13 @@
   </div>
 
   <div class="row">
-    <h3>Inner Function</h3>
-    <div id="js-inner"></div>
+    <h3>Fruit Function</h3>
+    <div id="js-fruit"></div>
   </div>
 
   <div class="row">
-    <h3>Outer Function</h3>
-    <div id="js-outer"></div>
+    <h3>Fruit Thrower Function</h3>
+    <div id="js-fruit-thrower"></div>
   </div>
 
   <div class="row">
@@ -30,30 +30,30 @@
 
   (function (window) {
 
-    function outerFunction() {
+    window.onerror = function () {
+      printProps(arguments, "js-global");
+    };
+
+    function FruitThrower() {
       var fruits = ["apple"];
       try {
 
         fruits.forEach(function (fruit) {
           try {
-            throw new Error("an example error");
+            throw new Error("throwing an " + fruit);
           } catch (e) {
-            printProps(e, "js-inner");
+            printProps(e, "js-fruit");
             throw e;
           }
         });
 
       } catch(e) {
-        printProps(e, "js-outer");
+        printProps(e, "js-fruit-thrower");
         throw e;
       }
     }
 
-    window.onerror = function () {
-      printProps(arguments, "js-global");
-    };
-
-    outerFunction();
+    new FruitThrower();
 
   })(window);
 
